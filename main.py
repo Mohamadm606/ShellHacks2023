@@ -1,6 +1,6 @@
 from taipy import Gui
 import pandas as pd
-import getData
+import shellhacks2023
 
 def get_data(path_to_csv: str):
     # pandas.read_csv() returns a pd.DataFrame
@@ -24,8 +24,6 @@ data = {
   "Country": ["Apple","Micosoft",...,"Meta"],
   "Area": [1445674.66,815312,...,72330.4]
 }
-
-num = getData.get_esg_info()
 
 
 # Definition of the page
@@ -61,3 +59,6 @@ def on_change(state, var_name: str, var_value):
 
 # Create a Gui object with our page content
 Gui(page=page).run(dark_mode=False)
+
+#here
+num = shellhacks2023.get_esg_info(value)
