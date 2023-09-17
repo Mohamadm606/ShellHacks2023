@@ -1,64 +1,28 @@
 from taipy import Gui
-import pandas as pd
 import shellhacks2023
-
-def get_data(path_to_csv: str):
-    # pandas.read_csv() returns a pd.DataFrame
-    dataset = pd.read_csv(path_to_csv)
-    dataset["Date"] = pd.to_datetime(dataset["Date"])
-    return dataset
-
-# Read the dataframe
-
-path_to_csv = "dataset.csv"
-dataset = get_data(path_to_csv)
-
-value = "Search company"
-
-# Initial value
-n_week = 10
-dataset_week = dataset[dataset["Date"].dt.isocalendar().week == n_week]
 
 # pie chart
 data = {
-  "Country": ["Apple","Micosoft",...,"Meta"],
-  "Area": [1445674.66,815312,...,72330.4]
+  "label": ["Environmental", "Governance", "Social"],
+  "values": [1445674.66, 815312, 72330.4]
 }
-
 
 # Definition of the page
 page = """
-# Search your stock
+<|{value}|input|>
+<|Search|button|on_action=on_button_action|>
 
-<|{value}|input|> <|Search|button|>
-
-Week number: *<|{n_week}|>*
-
-Interact with this slider to change the week number:
-
-<|{n_week}|slider|min=1|max=52|>
-
-## Dataset:
-
-Display the last three months of data:
-
-<|{dataset_week}|chart|type=bar|x=Date|y=Value|>
-
-<|{dataset}|table|width=100%|>
-
-Dataset in Pie chart:
-
-<|{data}|chart|type=pie|values=Area|labels=Country|>
-
+<|{data}|chart|type=pie|values=values|labels=label|>
+<h3>Company ESG Risk Factors</h3>
 """
-# on_change is the function that is called when any variable is changed
-def on_change(state, var_name: str, var_value):
-    if var_name == "n_week":
-        # Update the dataset when the slider is moved
-        state.dataset_week = dataset[dataset["Date"].dt.isocalendar().week == var_value]
 
-# Create a Gui object with our page content
-Gui(page=page).run(dark_mode=False)
+value = "Enter Ticker"
 
-#here
-num = shellhacks2023.get_esg_info(value)
+def on_button_action(state):
+    temp = state.value
+    res = shellhacks2023.get_esg_info(temp)
+    data["values"] = res[0:3]
+    total = res[3]
+    Gui(page=page).run(dark_mode=True)
+
+Gui(page=page).run(dark_mode=True)
