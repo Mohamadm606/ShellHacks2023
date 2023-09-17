@@ -13,7 +13,7 @@ page = """
 <|Search|button|on_action=on_button_action|>
 
 <|{data}|chart|type=pie|values=values|labels=label|>
-<h3>Company ESG Risk Factors</h3>
+<h3>Company ESG Risk Factors and their percentages</h3>
 """
 
 value = "Enter Ticker"
